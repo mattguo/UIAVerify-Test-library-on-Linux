@@ -61,7 +61,7 @@ namespace SampleDriver
         static public AutomationElement StartApplication(string appPath, string arguments)
         {
             int MAXTIME = 5000; //   Total length in milliseconds to wait for the application to start
-            int TIMEWAIT = 100; //   Timespan to wait till trying to find the window
+            //int TIMEWAIT = 100; //   Timespan to wait till trying to find the window
 
             Process process;
 
@@ -85,23 +85,29 @@ namespace SampleDriver
             // this is for piper, but is a nop for others such as wtt
             UIAVerifyLogger.MonitorProcess(process);
 
-            int runningTime = 0;
-            while (process.MainWindowHandle.Equals(IntPtr.Zero))
-            {
-                if (runningTime > MAXTIME)
-                    throw new Exception("Could not find " + appPath);
+//            int runningTime = 0;
+//            while (process.MainWindowHandle.Equals(IntPtr.Zero))
+//            {
+//                if (runningTime > MAXTIME)
+//                    throw new Exception("Could not find " + appPath);
+//
+//                Thread.Sleep(TIMEWAIT);
+//                runningTime += TIMEWAIT;
+//
+//                process.Refresh();
+//            }
 
-                Thread.Sleep(TIMEWAIT);
-                runningTime += TIMEWAIT;
-
-                process.Refresh();
-            }
+			Thread.Sleep (MAXTIME);
 
             UIAVerifyLogger.LogComment("{0} started", appPath);
 
             UIAVerifyLogger.LogComment("Obtained an AutomationElement for {0}", appPath);
-            return AutomationElement.FromHandle(process.MainWindowHandle);
-
+            //return AutomationElement.FromHandle(process.MainWindowHandle);
+			return AutomationElement.RootElement.FindFirst (
+				TreeScope.Children,
+				new AndCondition (
+					new PropertyCondition (AutomationElement.ProcessIdProperty, process.Handle.ToInt32 ()),
+					new PropertyCondition (AutomationElement.ControlTypeProperty, ControlType.Window)));
         }
     }
 }

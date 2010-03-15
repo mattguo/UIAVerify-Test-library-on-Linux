@@ -153,49 +153,55 @@ namespace Microsoft.Test.UIAutomation.Core
             UIAVerifyLogger.MonitorProcess(process);
 
             UIAVerifyLogger.LogComment("{0}Waiting for max of {1} seconds for application to start", PREBUFFER, MAXTIME / 1000);
-            DateTime finishTime = DateTime.Now + TimeSpan.FromMilliseconds(MAXTIME);
+//            DateTime finishTime = DateTime.Now + TimeSpan.FromMilliseconds(MAXTIME);
+//
+//            while (process.MainWindowHandle.Equals(IntPtr.Zero))
+//            {
+//                if (DateTime.Now > finishTime)
+//                    throw new Exception("Could not find " + appPath + " in " + MAXTIME + " milliseconds");
+//
+//                Thread.Sleep(TIMEWAIT);
+//
+//                process.Refresh();
+//            }
+			Thread.Sleep (MAXTIME);
 
-            while (process.MainWindowHandle.Equals(IntPtr.Zero))
-            {
-                if (DateTime.Now > finishTime)
-                    throw new Exception("Could not find " + appPath + " in " + MAXTIME + " milliseconds");
-
-                Thread.Sleep(TIMEWAIT);
-
-                process.Refresh();
-            }
-
-            // Special case code for these to test applications that are really console windows that start
-            // up another test application.  Don't take the console window, but the test application that 
-            // it shells.
-            string title = string.Empty;
-
-            // If it is special case, then find the window by title
-            if (title != string.Empty)
-            {
-                finishTime = DateTime.Now + TimeSpan.FromMilliseconds(MAXTIME);
-                handle = IntPtr.Zero;
-
-                while (handle == IntPtr.Zero)
-                {
-                    if (DateTime.Now > finishTime)
-                        throw new ArgumentException("Could not find the " + title + " window in " + MAXTIME + " milliseconds");
-
-                    Thread.Sleep(TIMEWAIT);
-
-                    handle = SafeNativeMethods.FindWindow(null, title);
-                }
-
-                element = AutomationElement.FromHandle(handle);
-            }
-            else // assume normal application window
-            {
-                handle = process.MainWindowHandle;
-            }
+//            // Special case code for these to test applications that are really console windows that start
+//            // up another test application.  Don't take the console window, but the test application that 
+//            // it shells.
+//            string title = string.Empty;
+//
+//            // If it is special case, then find the window by title
+//            if (title != string.Empty)
+//            {
+//                finishTime = DateTime.Now + TimeSpan.FromMilliseconds(MAXTIME);
+//                handle = IntPtr.Zero;
+//
+//                while (handle == IntPtr.Zero)
+//                {
+//                    if (DateTime.Now > finishTime)
+//                        throw new ArgumentException("Could not find the " + title + " window in " + MAXTIME + " milliseconds");
+//
+//                    Thread.Sleep(TIMEWAIT);
+//
+//                    handle = SafeNativeMethods.FindWindow(null, title);
+//                }
+//
+//                element = AutomationElement.FromHandle(handle);
+//            }
+//            else // assume normal application window
+//            {
+//                handle = process.MainWindowHandle;
+//            }
 
             UIAVerifyLogger.LogComment("{0}{1} started", PREBUFFER, appPath);
-            element = AutomationElement.FromHandle(handle);
-
+            //element = AutomationElement.FromHandle(handle);
+			element = AutomationElement.RootElement.FindFirst (
+				TreeScope.Children,
+				new AndCondition (
+					new PropertyCondition (AutomationElement.ProcessIdProperty, process.Handle.ToInt32 ()),
+					new PropertyCondition (AutomationElement.ControlTypeProperty, ControlType.Window)));
+			handle =  element != null ? new IntPtr (element.Current.NativeWindowHandle) : IntPtr.Zero;
 
             UIAVerifyLogger.LogComment("{0}Obtained an AutomationElement for {1}", PREBUFFER, appPath);
         }
