@@ -1,0 +1,9 @@
+﻿1. Add KeyBinder;
+	(git clone git://git.gnome.org/tomboy)
+	copy from Tomboy/Keybinder.cs
+	
+	* ManagedWinapi - A collection of .NET components that wrap PInvoke calls to 
+	* access native API by managed code. http://mwinapi.sourceforge.net/
+	* Copyright (C) 2006 Michael Schierl
+
+2. Natively impl SystemInfo.VirtualScreen, so that remove the denpendency on System.Drawing

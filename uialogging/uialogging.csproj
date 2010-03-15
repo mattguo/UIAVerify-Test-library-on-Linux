@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -14,6 +15,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +41,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\bin\x86\release\</OutputPath>
@@ -47,6 +51,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +60,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>..\bin\x64\release\</OutputPath>
@@ -63,6 +70,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -74,22 +82,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleLogger.cs" />
-    <Compile Include="Interfaces.cs" />
-    <Compile Include="LogInfo\BaseInfo.cs" />
-    <Compile Include="LogInfo\CommentInfo.cs" />
-    <Compile Include="LogInfo\ExceptionInfo.cs" />
-    <Compile Include="LogInfo\MonitorProcessInfo.cs" />
-    <Compile Include="LogInfo\ReportResultsInfo.cs" />
-    <Compile Include="LogInfo\StartTestInfo.cs" />
-    <Compile Include="LogInfo\TestEndInfo.cs" />
-    <Compile Include="LogInfo\TestResultInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestManager.cs" />
-    <Compile Include="UniversalLogger.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="InfoObjects\" />
+    <Compile Include="consolelogger.cs" />
+    <Compile Include="interfaces.cs" />
+    <Compile Include="loginfo\baseinfo.cs" />
+    <Compile Include="loginfo\commentinfo.cs" />
+    <Compile Include="loginfo\exceptioninfo.cs" />
+    <Compile Include="loginfo\monitorprocessinfo.cs" />
+    <Compile Include="loginfo\reportresultsinfo.cs" />
+    <Compile Include="loginfo\starttestinfo.cs" />
+    <Compile Include="loginfo\testendinfo.cs" />
+    <Compile Include="loginfo\testresultinfo.cs" />
+    <Compile Include="universallogger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
