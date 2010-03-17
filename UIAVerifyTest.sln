@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationCore", "Present
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X11Binding", "X11Binding\X11Binding.csproj", "{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicAutomation.Test", "BasicAutomation\BasicAutomation.Test\BasicAutomation.Test.csproj", "{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X11Binding.Tests", "X11Binding\X11Binding.Tests\X11Binding.Tests.csproj", "{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,30 @@ Global
 		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|x64.Build.0 = Release|Any CPU
 		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|x86.Build.0 = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|x64.Build.0 = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|x86.Build.0 = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|x64.ActiveCfg = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|x64.Build.0 = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|x86.Build.0 = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|x64.Build.0 = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|x86.Build.0 = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|x64.ActiveCfg = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|x64.Build.0 = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|x86.ActiveCfg = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|x86.Build.0 = Release|Any CPU
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Debug|x64.ActiveCfg = Debug|x64
@@ -85,6 +113,6 @@ Global
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = UIATestLibrary\UIATestLibrary.csproj
+		StartupItem = BasicAutomation\BasicAutomation.Test\BasicAutomation.Test.csproj
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -24,22 +24,6 @@ namespace BasicAutomation
         void ChangeMouseState(double x, double y, MouseButton button, MouseButtonState state);
         MouseButtonState GetMouseButtonState(MouseButton button);
     }
-
-    //todo, MouseButton and MouseButtonStaet are in PresentationCore, System.Windows.Input
-    //public enum MouseButton
-    //{
-    //    Left,
-    //    Middle,
-    //    Right,
-    //    XButton1,
-    //    XButton2
-    //}
-
-    //public enum MouseButtonState
-    //{
-    //    Released,
-    //    Pressed
-    //}
 
     public enum MouseWheel
     {

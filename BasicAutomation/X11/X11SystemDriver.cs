@@ -70,6 +70,7 @@ namespace BasicAutomation.X11
 				X11Methods.XTestFakeMotionEvent(Display.Handle, screenNo, (int)x, (int)y, new UIntPtr(X11Consts.CurrentTime));
 			else
 				X11Methods.XTestFakeRelativeMotionEvent(Display.Handle, (int)x, (int)y, new UIntPtr(X11Consts.CurrentTime));
+			Display.Flush();
         }
 
         public System.Windows.Point MousePostion
@@ -133,13 +134,13 @@ namespace BasicAutomation.X11
 			switch (button)
 			{
 			case MouseButton.Left:
-				buttonId = 0;
-				break;
-			case MouseButton.Middle:
 				buttonId = 1;
 				break;
-			case MouseButton.Right:
+			case MouseButton.Middle:
 				buttonId = 2;
+				break;
+			case MouseButton.Right:
+				buttonId = 3;
 				break;
 			case MouseButton.XButton1:
 			case MouseButton.XButton2:
@@ -147,6 +148,7 @@ namespace BasicAutomation.X11
 			}
 			bool isPressed = (state == MouseButtonState.Pressed);
 			X11Methods.XTestFakeButtonEvent(Display.Handle, buttonId, isPressed, new UIntPtr(X11Consts.CurrentTime));
+			Display.Flush();
         }
 
         public MouseButtonState GetMouseButtonState(MouseButton button)

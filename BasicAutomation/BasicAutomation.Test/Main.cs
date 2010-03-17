@@ -1,5 +1,7 @@
 using System;
 using BasicAutomation;
+using System.Windows.Input;
+using System.Threading;
 
 namespace BasicAutomation.Test
 {
@@ -22,7 +24,16 @@ namespace BasicAutomation.Test
 			NativeDriverFactory.System.SendMouseWheel(MouseWheel.Vertical, -2);
 			System.Threading.Thread.Sleep(1000);
 			NativeDriverFactory.System.MousePostion = new System.Windows.Point(500, 500);
-			NativeDriverFactory.System.SendMouseWheel(MouseWheel.Vertical, 2);
+			System.Threading.Thread.Sleep(1000);
+			NativeDriverFactory.System.SendMouseMove (50, 50, false);
+			Thread.Sleep (500);
+			NativeDriverFactory.System.SendMouseMove (-50, -100, false);
+			Thread.Sleep (500);
+			NativeDriverFactory.System.ChangeMouseState (500, 500, MouseButton.Right, MouseButtonState.Pressed);
+			Thread.Sleep (500);
+			NativeDriverFactory.System.ChangeMouseState (500, 500, MouseButton.Right, MouseButtonState.Released);
+			Thread.Sleep (2000);
+			Console.WriteLine ("Over");
 		}
 	}
 }
