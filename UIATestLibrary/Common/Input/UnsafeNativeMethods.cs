@@ -14,7 +14,6 @@
 
 using System.Threading;
 using System;
-using Accessibility;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Collections;
@@ -29,27 +28,23 @@ namespace MS.Win32
     //CASRemoval:[SuppressUnmanagedCodeSecurity]
     internal class UnsafeNativeMethods
     {
-        public static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+        //public static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
 
-        internal static Guid IID_IUnknown = new Guid(0x00000000, 0x0000, 0x0000, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
-        internal static Guid IID_IDispatch = new Guid(0x00020400, 0x0000, 0x0000, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
-        internal static Guid IID_IAccessible = new Guid(0x618736e0, 0x3c3d, 0x11cf, 0x81, 0x0c, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
+        //internal static Guid IID_IUnknown = new Guid(0x00000000, 0x0000, 0x0000, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
+        //internal static Guid IID_IDispatch = new Guid(0x00020400, 0x0000, 0x0000, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
+        //internal static Guid IID_IAccessible = new Guid(0x618736e0, 0x3c3d, 0x11cf, 0x81, 0x0c, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
 
-        [DllImport("oleacc.dll")]
-        public static extern int AccessibleObjectFromWindow(IntPtr hwnd, int idObject, ref Guid iid, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object ppvObject);
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, int flags, int uTimeout, out IntPtr pResult);
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int uMsg, IntPtr wParam, StringBuilder lParam, int flags, int uTimeout, out IntPtr result);
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int uMsg, IntPtr wParam, ref NativeMethods.Win32Rect lParam, int flags, int uTimeout, out IntPtr result);
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int uMsg, out int wParam, out int lParam, int flags, int uTimeout, out IntPtr result);
-        [DllImport("User32.dll", ExactSpelling = true, SetLastError = true)]
-        internal static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] ref NativeMethods.Win32Rect rect, int cPoints);
+        //[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        //internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, int flags, int uTimeout, out IntPtr pResult);
+        //[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        //internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int uMsg, IntPtr wParam, StringBuilder lParam, int flags, int uTimeout, out IntPtr result);
+        //[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        //internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int uMsg, IntPtr wParam, ref NativeMethods.Win32Rect lParam, int flags, int uTimeout, out IntPtr result);
+        //[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        //internal static extern IntPtr SendMessageTimeout(IntPtr hwnd, int uMsg, out int wParam, out int lParam, int flags, int uTimeout, out IntPtr result);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        internal static extern bool GetVersionEx([In, Out] NativeMethods.OSVERSIONINFOEX ver);
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        //internal static extern bool GetVersionEx([In, Out] NativeMethods.OSVERSIONINFOEX ver);
         //
         // SendInput related
         //
@@ -166,43 +161,13 @@ namespace MS.Win32
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetAsyncKeyState(int nVirtKey);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetKeyState(int nVirtKey);
+        //[DllImport("user32.dll", CharSet = CharSet.Auto)]
+        //public static extern int GetKeyState(int nVirtKey);
 
         //
         // Keyboard state
         //
-        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
-        internal static extern int GetKeyboardState(byte[] keystate);
-
-        [DllImport("user32.dll", ExactSpelling = true, EntryPoint = "keybd_event", CharSet = CharSet.Auto)]
-        internal static extern void Keybd_event(byte vk, byte scan, int flags, int extrainfo);
-        
-        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
-        internal static extern int SetKeyboardState(byte[] keystate);
-
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr SendMessage(NativeMethods.HWND hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, StringBuilder sb);
-
-
-        // Overload for WM_GETTEXT
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr SendMessage(NativeMethods.HWND hWnd, int nMsg, IntPtr wParam, StringBuilder lParam);
-
-        public const int EM_SETSEL               = 0x00B1;
-        public const int EM_GETLINECOUNT         = 0x00BA;
-        public const int EM_LINEFROMCHAR         = 0x00C9;
-
-        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        internal static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern IntPtr FindWindow(string className, string windowName);
-
-
+        //[DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        //internal static extern int GetKeyboardState(byte[] keystate);
     }
 }

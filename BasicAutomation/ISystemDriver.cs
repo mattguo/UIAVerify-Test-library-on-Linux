@@ -20,7 +20,7 @@ namespace BasicAutomation
         //todo, shall we support click multiple button simultaniously?
         void SendMouseMove(double x, double y, bool isAbsCoord);
         Point MousePostion { get; set; }
-        void SendMouseWheel(double x, double y, MouseWheel wheel, int delta);
+        void SendMouseWheel(MouseWheel wheel, int delta);
         void ChangeMouseState(double x, double y, MouseButton button, MouseButtonState state);
         MouseButtonState GetMouseButtonState(MouseButton button);
     }

@@ -17,7 +17,6 @@ using System.Windows.Automation;
 using System.Windows;
 using System.Reflection;
 using MS.Win32;
-using Accessibility;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -58,6 +57,7 @@ namespace Microsoft.Test.UIAutomation.Tests.Patterns
     using Microsoft.Test.UIAutomation.Core;
     using Microsoft.Test.UIAutomation.TestManager;
     using Microsoft.Test.UIAutomation.Interfaces;
+    using BasicAutomation;
 
     /// -----------------------------------------------------------------------
     /// <summary></summary>
@@ -422,36 +422,37 @@ namespace Microsoft.Test.UIAutomation.Tests.Patterns
         /// ---------------------------------------------------------------
         ///<summary></summary>
         /// ---------------------------------------------------------------
-        [TestCaseAttribute("HwndWindowRect.1.MSAA",
-            TestSummary = "Verify MSAA rectangle is correct for Hwnd based window",
-            Priority = TestPriorities.Pri0,
-            Status = TestStatus.Works,
-            Description = new string[] 
-                {
-                "Precondition: Element has a valid hwnd",
-                "Verification: Obtain the element's rectangle using IAccessible::get_accLocation()",
-                "Verification: Obtain the element's rectangle using Win32 GetWindowRect()",
-                "Verification: That the AutomationElement.GetBoundingRectangle is the same as IAccessible::get_accLocation()",
-                })]
-        public void HwndWindowRect1MSAA(TestCaseAttribute testCase)
-        {
-            HeaderComment(testCase);
-            Accessibility.IAccessible acc;
+        /// This TestCase is disabled since there is no MSAA porting on Linux.
+        //[TestCaseAttribute("HwndWindowRect.1.MSAA",
+        //    TestSummary = "Verify MSAA rectangle is correct for Hwnd based window",
+        //    Priority = TestPriorities.Pri0,
+        //    Status = TestStatus.Works,
+        //    Description = new string[] 
+        //        {
+        //        "Precondition: Element has a valid hwnd",
+        //        "Verification: Obtain the element's rectangle using IAccessible::get_accLocation()",
+        //        "Verification: Obtain the element's rectangle using Win32 GetWindowRect()",
+        //        "Verification: That the AutomationElement.GetBoundingRectangle is the same as IAccessible::get_accLocation()",
+        //        })]
+        //public void HwndWindowRect1MSAA(TestCaseAttribute testCase)
+        //{
+        //    HeaderComment(testCase);
+        //    Accessibility.IAccessible acc;
 
-            Rect rc = new Rect();
+        //    Rect rc = new Rect();
 
-            //"Precondition: Element has a valid hwnd",
-            TSC_VerifyProperty(m_le.Current.NativeWindowHandle, 0, false, "Current.NativeWindowHandle", CheckType.IncorrectElementConfiguration);
+        //    //"Precondition: Element has a valid hwnd",
+        //    TSC_VerifyProperty(m_le.Current.NativeWindowHandle, 0, false, "Current.NativeWindowHandle", CheckType.IncorrectElementConfiguration);
 
-            // "Verification: Obtain the element's rectangle using IAccessible::get_accLocation()",
-            TS_GetIAccessibleFromAutomationElement(m_le, out acc, CheckType.Verification);
+        //    // "Verification: Obtain the element's rectangle using IAccessible::get_accLocation()",
+        //    TS_GetIAccessibleFromAutomationElement(m_le, out acc, CheckType.Verification);
 
-            //"Verification: Obtain the element's rectangle using Win32 GetWindowRect()",
-            TS_GetaccLocation(m_le, out rc, CheckType.Verification);
+        //    //"Verification: Obtain the element's rectangle using Win32 GetWindowRect()",
+        //    TS_GetaccLocation(m_le, out rc, CheckType.Verification);
 
-            //"Verify: That the AutomationElement.GetBoundingRectangle is the same as the Win32 GetWindowRect()",
-            TS_VerifyBoundingRect(m_le, rc, CheckType.Verification);
-        }
+        //    //"Verify: That the AutomationElement.GetBoundingRectangle is the same as the Win32 GetWindowRect()",
+        //    TS_VerifyBoundingRect(m_le, rc, CheckType.Verification);
+        //}
 
         #endregion DPI Bounding Rect work
 
@@ -2637,76 +2638,21 @@ namespace Microsoft.Test.UIAutomation.Tests.Patterns
         /// -------------------------------------------------------------------
         private void TS_GetWin32GetWindowRect(AutomationElement element, out Rect rectObject, CheckType checktype)
         {
-            NativeMethods.RECT rcObject = new NativeMethods.RECT();
-            NativeMethods.RECT rcBuddy = new NativeMethods.RECT();
-            
-            Rect rectBuddy = new Rect();
             IntPtr intPtrElement = Helpers.CastNativeWindowHandleToIntPtr(element);
 
             if (intPtrElement == IntPtr.Zero)
                 ThrowMe(checktype, "Could not get a window handle to the element");
 
+            IWindowDriver wnd = NativeDriverFactory.GetWindow(intPtrElement);
             // Get the AutomationElement Win32 bounding rectangle
-            SafeNativeMethods.GetWindowRect(intPtrElement, ref rcObject);
-            rectObject = new Rect(rcObject.left, rcObject.top, rcObject.right - rcObject.left, rcObject.bottom - rcObject.top);
+            rectObject = wnd.Bound;
 
             // If this has a buddy control, get it and it's bounding rectangle
-            IntPtr hwndBuddy = Helpers.SendMessage(intPtrElement, NativeMethods.UDM_GETBUDDY, IntPtr.Zero, IntPtr.Zero);
-            if (hwndBuddy != IntPtr.Zero)
+            IWindowDriver buddyWnd = wnd.Buddy;
+            if (buddyWnd != null)
             {
-                SafeNativeMethods.GetWindowRect(hwndBuddy, ref rcBuddy);
-                rectBuddy = new Rect(rcBuddy.left, rcBuddy.top, rcBuddy.right - rcBuddy.left, rcBuddy.bottom - rcBuddy.top);
+                Rect rectBuddy = buddyWnd.Bound;
                 rectObject = Rect.Union(rectBuddy, rectObject);
-            }
-
-            m_TestStep++;
-        }
-
-
-        /// -------------------------------------------------------------------
-        /// <summary>
-        /// Get the window rect using the IAccessible::get_accLocation.  If there is
-        /// a buddy control (ie. Spinner), then take the union of the element's 
-        /// bounding rectangle, and the buddy controls bounding rectangle.
-        /// </summary>
-        /// -------------------------------------------------------------------
-        private void TS_GetaccLocation(AutomationElement element, out Rect rcObject, CheckType checktype)
-        {
-            IAccessible accObject = null;
-            IAccessible accBuddy = null;
-            Rect rcBuddy = Rect.Empty;
-            int accleft, acctop, accwidth, accheight;
-            int bdyleft, bdytop, bdywidth, bdyheight;
-            object accobjChild = null;
-            IntPtr intPtrElement = Helpers.CastNativeWindowHandleToIntPtr(element);
-
-            if (intPtrElement == IntPtr.Zero)
-                ThrowMe(checktype, "Could not get a window handle to the element");
-
-            // Get the AutomationElement IAccessible 
-            int retValue = Helpers.GetIAccessibleFromWindow(intPtrElement, 0, ref accObject);
-            if (accObject == null || retValue != NativeMethods.S_OK)
-                ThrowMe(CheckType.Verification, "Could not get the IAccessible for the element");
-
-            // Get the AutomationElement IAccessible location and convert to Rect so we can use Rect.Union
-            accObject.accLocation(out accleft, out acctop, out accwidth, out accheight, accobjChild);
-            rcObject = new Rect(accleft, acctop, accwidth, accheight);
-
-            // If this has a buddy control, get it and it's bounding rectangle and take the union of the buddy
-            // rectangle and elements rectangle
-            IntPtr hwndBuddy = Helpers.SendMessage(intPtrElement, NativeMethods.UDM_GETBUDDY, IntPtr.Zero, IntPtr.Zero);
-            if (hwndBuddy != IntPtr.Zero)
-            {
-                retValue = Helpers.GetIAccessibleFromWindow(hwndBuddy, 0, ref accBuddy);
-                if (accBuddy == null || retValue == NativeMethods.S_FALSE)
-                {
-                    ThrowMe(CheckType.Verification, "Element has a buddy control, but could not get the IAccessible for the buddy to calculate the rectangle");
-                }
-
-                // Get the location of the buddy control and create a union of the two locations
-                accBuddy.accLocation(out bdyleft, out bdytop, out bdywidth, out bdyheight, accobjChild);
-                rcBuddy = new Rect(bdyleft, bdytop, bdywidth, bdyheight);
-                rcObject = Rect.Union(rcBuddy, rcObject);
             }
 
             m_TestStep++;

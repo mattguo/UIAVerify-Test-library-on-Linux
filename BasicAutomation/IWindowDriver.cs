@@ -6,6 +6,7 @@ using System.Windows.Media;
 
 namespace BasicAutomation
 {
+	
     public interface IWindowDriver
     {
         IntPtr Handle { get; }

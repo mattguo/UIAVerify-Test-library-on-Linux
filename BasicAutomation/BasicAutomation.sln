@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicAutomation", "BasicAutomation.csproj", "{936DC052-9BF0-410C-9079-114514CCD24B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X11Binding.Tests", "..\X11Binding\X11Binding.Tests\X11Binding.Tests.csproj", "{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X11Binding", "..\X11Binding\X11Binding.csproj", "{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationCore", "..\PresentationCore\PresentationCore.csproj", "{95F78089-B222-4351-8850-171F4F30F2DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicAutomation.Test", "BasicAutomation.Test\BasicAutomation.Test.csproj", "{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{936DC052-9BF0-410C-9079-114514CCD24B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{936DC052-9BF0-410C-9079-114514CCD24B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{936DC052-9BF0-410C-9079-114514CCD24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{936DC052-9BF0-410C-9079-114514CCD24B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70B1994-41F5-440D-AB09-B8DE5DCE34DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7EABA1E-B4AD-42F4-9E84-FA042D7EE733}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		version = 0.1
+		StartupItem = ..\X11Binding\X11Binding.Tests\X11Binding.Tests.csproj
+	EndGlobalSection
+EndGlobal

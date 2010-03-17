@@ -29,6 +29,7 @@ namespace Microsoft.Test.UIAutomation.Core
     using Microsoft.Test.UIAutomation;
     using Microsoft.Test.UIAutomation.TestManager;
     using UIAVerifyLogger = Microsoft.Test.UIAutomation.Logging.UIAVerifyLogger;
+    using BasicAutomation;
 
     /// -----------------------------------------------------------------------
     /// <summary></summary>
@@ -94,13 +95,12 @@ namespace Microsoft.Test.UIAutomation.Core
         {
 
             Trace.WriteLine("Calling ShellExecute (" + appPath + ")");
-            IntPtr hInstance = UnsafeNativeMethods.ShellExecute(IntPtr.Zero, null, appPath, arguments, null, 1 /*SW_SHOWNORMAL */);
 
-            // hINstance really doesn't do you anything except tell you that it has failed if <= 32
-            if (hInstance.ToInt64() <= 32)
+            if (!NativeDriverFactory.System.Execute(appPath, arguments))
             {
-                Trace.WriteLine("Error stating application: " + hInstance);
-                throw new Exception("UnsafeNativeMethods.ShellExecute() returned " + hInstance);
+                string errorInfo = "Error stating application: " + appPath;
+                Trace.WriteLine(errorInfo);
+                throw new Exception(errorInfo);
             }
 
             IntPtr hwnd = IntPtr.Zero;
@@ -165,7 +165,6 @@ namespace Microsoft.Test.UIAutomation.Core
 //                process.Refresh();
 //            }
 			Thread.Sleep (MAXTIME);
-
 //            // Special case code for these to test applications that are really console windows that start
 //            // up another test application.  Don't take the console window, but the test application that 
 //            // it shells.
@@ -184,7 +183,8 @@ namespace Microsoft.Test.UIAutomation.Core
 //
 //                    Thread.Sleep(TIMEWAIT);
 //
-//                    handle = SafeNativeMethods.FindWindow(null, title);
+//                    IWindowDriver wnd = NativeDriverFactory.FindWindow(title);
+//                    handle = wnd.Handle;
 //                }
 //
 //                element = AutomationElement.FromHandle(handle);
@@ -195,7 +195,7 @@ namespace Microsoft.Test.UIAutomation.Core
 //            }
 
             UIAVerifyLogger.LogComment("{0}{1} started", PREBUFFER, appPath);
-            //element = AutomationElement.FromHandle(handle);
+//            element = AutomationElement.FromHandle(handle);
 			element = AutomationElement.RootElement.FindFirst (
 				TreeScope.Children,
 				new AndCondition (

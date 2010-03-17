@@ -17,7 +17,6 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Text;
-using Accessibility;
 using MS.Win32;
 using UIATestLibrary.InternalTestHelper;
 
@@ -34,6 +33,7 @@ namespace InternalHelper.Tests
     using Microsoft.Test.UIAutomation.Tests.Controls;
     using Microsoft.Test.UIAutomation.Tests.Patterns;
     using UIAVerifyLogger = Microsoft.Test.UIAutomation.Logging.UIAVerifyLogger;
+    using BasicAutomation;
 
     /// -----------------------------------------------------------------------
     /// <summary></summary>
@@ -1074,28 +1074,6 @@ namespace InternalHelper.Tests
             return list;
         }
 
-
-        /// -------------------------------------------------------------------
-        /// <summary>
-        /// Obtain an IAccessible from an AutomationElement
-        /// </summary>
-        /// -------------------------------------------------------------------
-        internal void TS_GetIAccessibleFromAutomationElement(AutomationElement element, out IAccessible accObject, CheckType checkType)
-        {
-            accObject = null;
-            IntPtr ptr = Helpers.CastNativeWindowHandleToIntPtr(element);
-
-            // Verify that this element has a hwnd associated with it
-            if (ptr == IntPtr.Zero)
-                ThrowMe(checkType, "Could not get an handle to the AutomationElement");
-
-            int hr = Helpers.GetIAccessibleFromWindow(ptr, 0, ref accObject);
-            if (NativeMethods.S_OK != hr)
-                ThrowMe(checkType, "AccessibleObjectFromWindow failed(hr={0})", hr);
-
-            m_TestStep++;
-        }
-
         /// -------------------------------------------------------------------
         /// <summary></summary>
         /// -------------------------------------------------------------------
@@ -1314,10 +1292,8 @@ namespace InternalHelper.Tests
                 ThrowMe(CheckType.Verification, "Could not find a control with an hwnd");
 
             // returns whether it is right to left
-            return (NativeMethods.GetWindowLong(
-                new IntPtr(element.Current.NativeWindowHandle),
-                NativeMethods.GWL_EXSTYLE) & NativeMethods.WS_EX_LAYOUTRTL)
-                    == NativeMethods.WS_EX_LAYOUTRTL;
+            IWindowDriver wnd = NativeDriverFactory.GetWindow(Helpers.CastNativeWindowHandleToIntPtr(element));
+            return wnd.IsRightToLeftLayout;
         }
 
         /// -------------------------------------------------------------------
@@ -1791,9 +1767,7 @@ namespace InternalHelper.Tests
             Point pt = new Point(rc.Left + (rc.Right - rc.Left) / 2, rc.Top + (rc.Bottom - rc.Top) / 2);
             Comment("Sending mouse click to ({0}, {1})", pt.X, pt.Y);
 
-            ATGTestInput.Input.MoveTo(pt);
-            ATGTestInput.Input.SendMouseInput(0, 0, 0, ATGTestInput.SendMouseInputFlags.LeftDown);
-            ATGTestInput.Input.SendMouseInput(0, 0, 0, ATGTestInput.SendMouseInputFlags.LeftUp);
+            ATGTestInput.Input.MoveToAndClick(pt.X, pt.Y);
 
             m_TestStep++;
         }

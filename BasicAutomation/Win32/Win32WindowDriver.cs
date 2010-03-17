@@ -172,6 +172,7 @@ namespace BasicAutomation.Win32
 
         public IEditWindowDriver AsEditWindow()
         {
+			//todo cuurently I found no way to detect whether a window is an edit control.
             return this;
         }
 

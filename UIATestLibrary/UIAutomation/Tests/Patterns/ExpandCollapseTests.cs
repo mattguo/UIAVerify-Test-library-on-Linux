@@ -15,7 +15,7 @@ using System.Globalization;
 using System.Threading;
 using System.Windows.Automation;
 using System.Windows;
-using ATGTestInput;
+//using ATGTestInput;
 using System.Windows.Input;
 
 namespace InternalHelper.Tests.Patterns

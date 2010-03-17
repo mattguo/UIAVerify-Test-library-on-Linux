@@ -7,3 +7,16 @@
 	* Copyright (C) 2006 Michael Schierl
 
 2. Natively impl SystemInfo.VirtualScreen, so that remove the denpendency on System.Drawing
+
+3. in IWindowDriver, Focus(), GetParent etc
+
+4. multi screen, multi display (e.g. double-head video card) support.
+
+5. From X Color to Color
+
+6. Change current singleton pattern to the lazy-instatiate style.
+
+7. ShowWindow(Normal, Min, Max);
+
+8. Detect whether the Window is mapped. (!!!)
+Even if a window is on the taskbar, if it's completely masked by another window, it's unmapped.

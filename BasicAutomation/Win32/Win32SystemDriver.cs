@@ -4,6 +4,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace BasicAutomation.Win32
 {
@@ -15,10 +16,12 @@ namespace BasicAutomation.Win32
         //Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Win32SystemDriver()
         {
+			
         }
 
         private Win32SystemDriver()
         {
+			
         }
 
         public static Win32SystemDriver Instance
@@ -34,9 +37,18 @@ namespace BasicAutomation.Win32
 
         public bool Execute(string appPath, string arguments)
         {
+            Process p = new Process();
+            p.StartInfo.FileName = appPath;
+            p.StartInfo.Arguments = arguments;
+            return p.Start();
+        }
+
+        /*
+        public bool ShellExecute(string appPath, string arguments)
+        {
             IntPtr hInstance = Win32NativeMethods.ShellExecute(IntPtr.Zero, null, appPath, arguments, null, 1);
             return hInstance.ToInt64() <= 32L;
-        }
+        }*/
 
         public void InputKey(Key key, bool press)
         {
@@ -95,18 +107,27 @@ namespace BasicAutomation.Win32
 
         public System.Windows.Point MousePostion
         {
-            get { throw new NotImplementedException(); }
-            set { SendMouseMove(value.X, value.Y, true); }
+            get
+			{
+				Win32NativeMethods.POINT pt;	
+				Win32NativeMethods.GetCursorPos(out pt);
+				return new System.Windows.Point(pt.X, pt.Y);
+			}
+            set
+			{
+				SendMouseMove(value.X, value.Y, true);
+			}
         }
 
-        public void SendMouseWheel(double x, double y, MouseWheel wheel, int delta)
+        public void SendMouseWheel(MouseWheel wheel, int delta)
         {
-            int mouseInputFlags = Win32NativeMethods.MOUSEEVENTF_ABSOLUTE;
+            //int mouseInputFlags = Win32NativeMethods.MOUSEEVENTF_ABSOLUTE;
+			int mouseInputFlags = 0;
             if (wheel == MouseWheel.Horizontal)
                 throw new NotImplementedException();
             else
                 mouseInputFlags |= Win32NativeMethods.MOUSEEVENTF_WHEEL;
-            SendMouseInput(x, y, delta, mouseInputFlags);
+            SendMouseInput(0, 0, delta, mouseInputFlags);
         }
 
         public void ChangeMouseState(double x, double y, MouseButton button, MouseButtonState state)

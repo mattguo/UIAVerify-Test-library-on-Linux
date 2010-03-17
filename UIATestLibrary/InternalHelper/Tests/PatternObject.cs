@@ -24,6 +24,7 @@ namespace InternalHelper.Tests
     using Microsoft.Test.UIAutomation.Core;
     using Microsoft.Test.UIAutomation.Interfaces;
 	using Microsoft.Test.UIAutomation.TestManager;
+    using BasicAutomation;
 
     /// -----------------------------------------------------------------------
     /// <summary></summary>
@@ -645,7 +646,8 @@ namespace InternalHelper.Tests
 
             Comment("Moving window to (" + newX + ", " + newY + ", " + width + ", " + height + ")");
 
-            SafeNativeMethods.MoveWindow(ptr, (int)newX, (int)newY, width, height, 1);
+            IWindowDriver wnd = NativeDriverFactory.GetWindow(ptr);
+            wnd.Position = new Point(newX, newY);
 
             m_TestStep++;
         }

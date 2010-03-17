@@ -180,6 +180,7 @@ namespace Microsoft.Test.UIAutomation.Tests.Patterns
     using Microsoft.Test.UIAutomation.Core;
     using Microsoft.Test.UIAutomation.TestManager;
     using Microsoft.Test.UIAutomation.Interfaces;
+    using BasicAutomation;
 
     /// -----------------------------------------------------------------------
     /// <summary></summary>
@@ -805,36 +806,22 @@ namespace Microsoft.Test.UIAutomation.Tests.Patterns
         /// ----------------------------------------------------------------------------
         void TS_GetRandomWindowSize(out int Width, out int Height, CheckType checkType)
         {
+            IntPtr ptr = Helpers.CastNativeWindowHandleToIntPtr(m_le);
 
-            object objHwnd = m_le.GetCurrentPropertyValue(AutomationElement.NativeWindowHandleProperty);
-            //			object objHwnd = m_le.RawElement.GetPropertyValue(RawElement.NativeWindowHandleProperty);
-            IntPtr ptr = IntPtr.Zero;
-
-            if (objHwnd is IntPtr)
-                ptr = (IntPtr)objHwnd;
-            else
-                ptr = new IntPtr(Convert.ToInt64(objHwnd, CultureInfo.CurrentCulture));
-
-            if (ptr == IntPtr.Zero)
-                ThrowMe(checkType, "Could not get the handle to the element(window)");
-
-
-            NativeMethods.RECT originalRect = new NativeMethods.RECT();
-            NativeMethods.RECT smallRect = new NativeMethods.RECT();
-
-            // get original size so we can restore after
-            SafeNativeMethods.GetWindowRect(ptr, ref originalRect);
+            IWindowDriver wnd = NativeDriverFactory.GetWindow(ptr);
+            
+            Rect originalRect = wnd.Bound;
 
             // try to move it to it's smallest size so we can determine the smallest size this can be
-            SafeNativeMethods.MoveWindow(ptr, 1, 1, 1, 1, 0);
+            wnd.Bound = new Rect(1, 1, 1, 1);
+            Rect smallRect = wnd.Bound;
 
-            // get the random window size 
-            SafeNativeMethods.GetWindowRect(ptr, ref smallRect);
-            Width = (int)Helpers.RandomValue(smallRect.right - smallRect.left, originalRect.right - originalRect.left);
-            Height = (int)Helpers.RandomValue(smallRect.bottom - smallRect.top, originalRect.bottom - originalRect.top);
+            Width = (int)Helpers.RandomValue(smallRect.Width, originalRect.Width);
+            Height = (int)Helpers.RandomValue(smallRect.Height, originalRect.Height);
 
             // put the window back.
-            SafeNativeMethods.MoveWindow(ptr, (int)originalRect.left, (int)originalRect.top, (int)(originalRect.right - originalRect.left), (int)(originalRect.bottom - originalRect.top), -1);
+            wnd.Bound = originalRect;
+
             Comment("Found random window size of (" + Width + " x " + Height + ")");
             m_TestStep++;
         }
@@ -951,9 +938,10 @@ namespace Microsoft.Test.UIAutomation.Tests.Patterns
             Comment("Selection screen[" + randomScreen + "].WorkingArea = " + rectScreen);
 
             // Use 2 since we are taking off one pixel overlapp on each side
-            double CYCAPTION = SafeNativeMethods.GetSystemMetrics(NativeMethods.SM_CYCAPTION);
-            double CXBORDER = SafeNativeMethods.GetSystemMetrics(NativeMethods.SM_CXBORDER);
-            double CYBORDER = SafeNativeMethods.GetSystemMetrics(NativeMethods.SM_CYBORDER);
+            double CYCAPTION = System.Windows.Forms.SystemInformation.CaptionHeight;
+            System.Drawing.Size borderSize = System.Windows.Forms.SystemInformation.BorderSize;
+            double CXBORDER = borderSize.Width;
+            double CYBORDER = borderSize.Height;
 
             rect = new Rect(
                 rectScreen.Left - meRect.Width + (CXBORDER * 1.2),

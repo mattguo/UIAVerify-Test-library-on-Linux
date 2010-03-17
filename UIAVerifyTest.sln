@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uialogging", "uialogging\ui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIATestLibrary", "UIATestLibrary\UIATestLibrary.csproj", "{EF563732-17B0-4B32-B14C-903A65862DF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationCore", "PresentationCore\PresentationCore.csproj", "{95F78089-B222-4351-8850-171F4F30F2DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X11Binding", "X11Binding\X11Binding.csproj", "{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,18 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|x64.Build.0 = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|x64.ActiveCfg = Release|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|x64.Build.0 = Release|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CACE49E-AC81-43C2-A9A7-2C67DD1A0B7A}.Release|x86.Build.0 = Release|Any CPU
 		{2774E82D-D3DA-4849-B762-F36FCF004261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2774E82D-D3DA-4849-B762-F36FCF004261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2774E82D-D3DA-4849-B762-F36FCF004261}.Debug|x86.ActiveCfg = Debug|x86
@@ -43,6 +59,18 @@ Global
 		{936DC052-9BF0-410C-9079-114514CCD24B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{936DC052-9BF0-410C-9079-114514CCD24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{936DC052-9BF0-410C-9079-114514CCD24B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|x64.Build.0 = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|x64.ActiveCfg = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|x64.Build.0 = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{95F78089-B222-4351-8850-171F4F30F2DB}.Release|x86.Build.0 = Release|Any CPU
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Debug|x64.ActiveCfg = Debug|x64
@@ -57,6 +85,6 @@ Global
 		{EF563732-17B0-4B32-B14C-903A65862DF6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = BasicAutomation\BasicAutomation.csproj
+		StartupItem = UIATestLibrary\UIATestLibrary.csproj
 	EndGlobalSection
 EndGlobal

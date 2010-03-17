@@ -387,7 +387,7 @@ namespace Microsoft.Test.UIAutomation.Tests.Patterns
             }
 
             Comment("Calling Performing mouse click @ Point(" + pt + ")");
-            ATGTestInput.Input.MoveToAndClick(pt);
+            ATGTestInput.Input.MoveToAndClick(pt.X, pt.Y);
 
             m_TestStep++;
         }

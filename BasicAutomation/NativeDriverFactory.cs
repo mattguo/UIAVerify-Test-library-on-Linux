@@ -15,8 +15,8 @@ namespace BasicAutomation
                     factory = Win32.Win32DriverFactory.Instance;
                     break;
                 case OperatingSystemType.Unix:
-                    throw new NotImplementedException();
-                    //break;
+                    factory = X11.X11DriverFactory.Instance;
+                    break;
                 default:
                     throw new NotImplementedException();
             }

@@ -22,11 +22,12 @@ using System.Threading;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
 
-using ATGTestInput;
+//using ATGTestInput;
 using Microsoft.Test.UIAutomation.Core;
 using UIAVerifyLogger = Microsoft.Test.UIAutomation.Logging.UIAVerifyLogger;
 using Microsoft.Test.UIAutomation.TestManager;
 using MS.Win32;
+using BasicAutomation;
 
 namespace InternalHelper
 {
@@ -196,43 +197,14 @@ namespace InternalHelper
             {
                 case "win32":
                 case "winform":
-                    return Win32IsStyle(element, SafeNativeMethods.ES_MULTILINE);
+                    IWindowDriver wnd = NativeDriverFactory.GetWindow(Helpers.CastNativeWindowHandleToIntPtr(element));
+                    return wnd.AsEditWindow().IsMultiLine;
                 case "wpf": 
                     InternalHelper.Tests.TestObject.Comment("****** IsMultiLine() is not supported for WPF/Windows Presentation Foundation. Assuming false");
                     return false;       
                 default:
                     throw new ArgumentException("IsMultiLine() has no support for " + typeOfProvider);
             }
-        }
-
-        ///-------------------------------------------------------------------
-        /// <summary>
-        /// Determine if WIN32 control supports multiple lines of text
-        /// </summary>
-        ///-------------------------------------------------------------------
-        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Multi")]
-        internal static bool Win32IsStyle(AutomationElement element, int style)
-        {
-            int _style;
-            IntPtr hWndPtr;
-            NativeMethods.HWND hWnd;
-
-            // Determine _style
-            hWndPtr = Helpers.CastNativeWindowHandleToIntPtr(element);
-            hWnd = NativeMethods.HWND.Cast(hWndPtr);
-
-            _style = SafeNativeMethods.GetWindowLong(hWnd, SafeNativeMethods.GWL_STYLE);
-
-            // OACR requirement
-            if (_style == 0)
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-
-            // Validate against expected results, then set comment text
-            if ((_style & style) > 0)
-                return true;
-            else
-                return false;
         }
 
         #endregion IsMultiLine

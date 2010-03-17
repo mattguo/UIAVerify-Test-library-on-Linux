@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
 
-using MS.Win32;
+using BasicAutomation;
 
 namespace InternalHelper
 {
@@ -168,12 +168,9 @@ namespace InternalHelper
         /// -------------------------------------------------------------------
         public static int Win32CountLines(AutomationElement element)
         {
-            IntPtr hWndPtr = CastNativeWindowHandleToIntPtr(element);
-            NativeMethods.HWND hWnd = NativeMethods.HWND.Cast(hWndPtr);
-
-            IntPtr lineCount1 = UnsafeNativeMethods.SendMessage(hWnd, UnsafeNativeMethods.EM_GETLINECOUNT, IntPtr.Zero, IntPtr.Zero);
-
-            return (int)lineCount1.ToInt32();
+            IntPtr hWndPtr = Helpers.CastNativeWindowHandleToIntPtr(element);
+            IWindowDriver wnd = NativeDriverFactory.GetWindow(hWndPtr);
+            return wnd.AsEditWindow().LineCount;
         }
 
         /// -------------------------------------------------------------------
@@ -514,29 +511,6 @@ namespace InternalHelper
         static public bool IsCriticalException(Exception exception)
         {
             return exception is SEHException || exception is NullReferenceException || exception is StackOverflowException || exception is OutOfMemoryException || exception is System.Threading.ThreadAbortException;
-        }
-
-        ///---------------------------------------------------------------------------
-        /// <summary>
-        /// Gets WindowHandle from an AutomationElement
-        /// </summary>
-        ///---------------------------------------------------------------------------
-        public static IntPtr CastNativeWindowHandleToIntPtr(AutomationElement element)
-        {
-            ValidateArgumentNonNull(element, "Automation Element cannot be null");
-
-            object objHwnd = element.GetCurrentPropertyValue(AutomationElement.NativeWindowHandleProperty);
-            IntPtr ptr = IntPtr.Zero;
-
-            if (objHwnd is IntPtr)
-                ptr = (IntPtr)objHwnd;
-            else
-                ptr = new IntPtr(Convert.ToInt64(objHwnd, CultureInfo.CurrentCulture));
-
-            if (ptr == IntPtr.Zero)
-                throw new InvalidOperationException("Could not get the handle to the element(window)");
-
-            return ptr;
         }
 
         #endregion

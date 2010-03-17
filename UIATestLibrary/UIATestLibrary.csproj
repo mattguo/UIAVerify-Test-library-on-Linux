@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EF563732-17B0-4B32-B14C-903A65862DF6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -15,7 +15,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,9 +73,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accessibility">
-      <HintPath>..\..\Windows\Microsoft.NET\Framework\v2.0.50727\Accessibility.dll</HintPath>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -98,8 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Input\Input.cs" />
-    <Compile Include="Common\Input\NativeMethods.cs" />
-    <Compile Include="Common\Input\SafeNativeMethods.cs" />
     <Compile Include="Common\Input\UnsafeNativeMethods.cs" />
     <Compile Include="Common\Narrator\NarratorErrorDialogs.cs" />
     <Compile Include="InternalHelper\automationelementpathfromroot.cs" />
@@ -194,6 +193,14 @@
     <ProjectReference Include="..\uialogging\uialogging.csproj">
       <Project>{7F4B9045-8FEF-4875-8EA8-DD8091288E2B}</Project>
       <Name>uialogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BasicAutomation\BasicAutomation.csproj">
+      <Project>{936DC052-9BF0-410C-9079-114514CCD24B}</Project>
+      <Name>BasicAutomation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresentationCore\PresentationCore.csproj">
+      <Project>{95F78089-B222-4351-8850-171F4F30F2DB}</Project>
+      <Name>PresentationCore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -18,7 +18,6 @@ using System.Text;
 using System.Resources;
 using System.Diagnostics;
 using System.Threading;
-using Accessibility;
 using MS.Win32;
 
 // This suppresses warnings #'s not recognized by the compiler.
@@ -72,12 +71,12 @@ namespace InternalHelper
         /// take a couple of seconds on a slow machine.        
         /// </summary>
         /// -------------------------------------------------------------------
-        private const int _sendMessageTimeoutValue = 10000;
+        //private const int _sendMessageTimeoutValue = 10000;
 
         /// -------------------------------------------------------------------
         /// <summary>Generic flags for SendMessages</summary>
         /// -------------------------------------------------------------------
-        private const int _sendMessageFlags = NativeMethods.SMTO_BLOCK;
+        //private const int _sendMessageFlags = NativeMethods.SMTO_BLOCK;
 
         /// -------------------------------------------------------------------
         /// <summary></summary>
@@ -144,35 +143,6 @@ namespace InternalHelper
         /// -------------------------------------------------------------------
         const string _IDSControl = "ControlType";
 
-        /// -------------------------------------------------------------------
-        /// <summary>
-        /// Get an IAccessible from a window pointer
-        /// </summary>
-        /// -------------------------------------------------------------------
-        internal static int GetIAccessibleFromWindow(IntPtr hwnd, int idObject, ref IAccessible accObject)
-        {
-            accObject = null;
-
-            try
-            {
-                object obj = null;
-                int hr = UnsafeNativeMethods.AccessibleObjectFromWindow(hwnd, idObject, ref UnsafeNativeMethods.IID_IUnknown, ref obj);
-
-                accObject = obj as IAccessible;
-
-                if (hr != NativeMethods.S_OK || accObject == null)
-                {
-                    return NativeMethods.S_FALSE;
-                }
-
-                return hr;
-            }
-            catch
-            {
-                return NativeMethods.S_FALSE;
-            }
-        }
-
         ///---------------------------------------------------------------------------
         /// <summary>
         /// Gets WindowHandle from an AutomationElement
@@ -202,20 +172,20 @@ namespace InternalHelper
         /// <summary>
         /// </summary>
         /// -------------------------------------------------------------------
-        internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
-        {
-            IntPtr result;
+        //internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
+        //{
+        //    IntPtr result;
 
-            IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
-            int lastWin32Error = Marshal.GetLastWin32Error();
+        //    IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
+        //    int lastWin32Error = Marshal.GetLastWin32Error();
 
-            if (resultSendMessage == IntPtr.Zero)
-            {
-                //  EvaluateSendMessageTimeoutError(lastWin32Error);
-            }
+        //    if (resultSendMessage == IntPtr.Zero)
+        //    {
+        //        //  EvaluateSendMessageTimeoutError(lastWin32Error);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
 
         /// -------------------------------------------------------------------
@@ -227,11 +197,11 @@ namespace InternalHelper
         /// from IntPtr to int.
         /// </summary>
         /// -------------------------------------------------------------------
-        internal static int SendMessageInt(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
-        {
-            IntPtr result = SendMessage(hwnd, msg, wParam, lParam);
-            return unchecked((int)(long)result);
-        }
+        //internal static int SendMessageInt(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
+        //{
+        //    IntPtr result = SendMessage(hwnd, msg, wParam, lParam);
+        //    return unchecked((int)(long)result);
+        //}
 
         /// -------------------------------------------------------------------
         /// <summary>
@@ -239,54 +209,20 @@ namespace InternalHelper
         /// @REVIEW: This maybe a temp solution for quick unblock, be careful when using this method
         /// </summary>
         /// -------------------------------------------------------------------
-        internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, bool ignoreTimeout)
-        {
-            IntPtr result;
+        //internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, bool ignoreTimeout)
+        //{
+        //    IntPtr result;
 
-            IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
-            int lastWin32Error = Marshal.GetLastWin32Error();
+        //    IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
+        //    int lastWin32Error = Marshal.GetLastWin32Error();
 
-            if (resultSendMessage == IntPtr.Zero)
-            {
-                // EvaluateSendMessageTimeoutError(lastWin32Error, ignoreTimeout);
-            }
+        //    if (resultSendMessage == IntPtr.Zero)
+        //    {
+        //        // EvaluateSendMessageTimeoutError(lastWin32Error, ignoreTimeout);
+        //    }
 
-            return result;
-        }
-
-        /// -------------------------------------------------------------------
-        /// <summary>
-        /// On a 64-bit platform, the value of the IntPtr is too large to represent as a 32-bit signed integer.
-        /// An int is a System.Int32.  When an explicit cast of IntPtr to int is done on a 64-bit platform an
-        /// OverflowException will occur when the IntPtr value exceeds the range of int. In cases where using
-        /// SendMessage to get back int (e.g. an item index or an enum value), this version safely truncates
-        /// from IntPtr to int.
-        /// </summary>
-        /// -------------------------------------------------------------------
-        internal static int SendMessageInt(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, bool ignoreTimeout)
-        {
-            IntPtr result = SendMessage(hwnd, msg, wParam, lParam, ignoreTimeout);
-            return unchecked((int)(long)result);
-        }
-
-        /// -------------------------------------------------------------------
-        /// <summary>
-        /// </summary>
-        /// -------------------------------------------------------------------
-        internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, StringBuilder sb)
-        {
-            IntPtr result;
-
-            IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, sb, _sendMessageFlags, _sendMessageTimeoutValue, out result);
-            int lastWin32Error = Marshal.GetLastWin32Error();
-
-            if (resultSendMessage == IntPtr.Zero)
-            {
-                //  EvaluateSendMessageTimeoutError(lastWin32Error);
-            }
-
-            return result;
-        }
+        //    return result;
+        //}
 
         /// -------------------------------------------------------------------
         /// <summary>
@@ -297,82 +233,117 @@ namespace InternalHelper
         /// from IntPtr to int.
         /// </summary>
         /// -------------------------------------------------------------------
-        internal static int SendMessageInt(IntPtr hwnd, int msg, IntPtr wParam, StringBuilder sb)
-        {
-            IntPtr result = SendMessage(hwnd, msg, wParam, sb);
-            return unchecked((int)(long)result);
-        }
+        //internal static int SendMessageInt(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, bool ignoreTimeout)
+        //{
+        //    IntPtr result = SendMessage(hwnd, msg, wParam, lParam, ignoreTimeout);
+        //    return unchecked((int)(long)result);
+        //}
+
+        /// -------------------------------------------------------------------
+        /// <summary>
+        /// </summary>
+        /// -------------------------------------------------------------------
+        //internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, StringBuilder sb)
+        //{
+        //    IntPtr result;
+
+        //    IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, sb, _sendMessageFlags, _sendMessageTimeoutValue, out result);
+        //    int lastWin32Error = Marshal.GetLastWin32Error();
+
+        //    if (resultSendMessage == IntPtr.Zero)
+        //    {
+        //        //  EvaluateSendMessageTimeoutError(lastWin32Error);
+        //    }
+
+        //    return result;
+        //}
+
+        /// -------------------------------------------------------------------
+        /// <summary>
+        /// On a 64-bit platform, the value of the IntPtr is too large to represent as a 32-bit signed integer.
+        /// An int is a System.Int32.  When an explicit cast of IntPtr to int is done on a 64-bit platform an
+        /// OverflowException will occur when the IntPtr value exceeds the range of int. In cases where using
+        /// SendMessage to get back int (e.g. an item index or an enum value), this version safely truncates
+        /// from IntPtr to int.
+        /// </summary>
+        /// -------------------------------------------------------------------
+        //internal static int SendMessageInt(IntPtr hwnd, int msg, IntPtr wParam, StringBuilder sb)
+        //{
+        //    IntPtr result = SendMessage(hwnd, msg, wParam, sb);
+        //    return unchecked((int)(long)result);
+        //}
 
         /// -------------------------------------------------------------------
         /// <summary>
         /// 
         /// </summary>
         /// -------------------------------------------------------------------
-        internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, ref NativeMethods.Win32Rect lParam)
-        {
-            IntPtr result;
+        //internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, ref NativeMethods.Win32Rect lParam)
+        //{
+        //    IntPtr result;
 
-            IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, ref lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
-            int lastWin32Error = Marshal.GetLastWin32Error();
+        //    IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, wParam, ref lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
+        //    int lastWin32Error = Marshal.GetLastWin32Error();
 
-            if (resultSendMessage == IntPtr.Zero)
-            {
-                // TODO$ : EvaluateSendMessageTimeoutError(lastWin32Error);
-            }
+        //    if (resultSendMessage == IntPtr.Zero)
+        //    {
+        //        // TODO$ : EvaluateSendMessageTimeoutError(lastWin32Error);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         /// -------------------------------------------------------------------
         /// <summary>
         /// </summary>
         /// -------------------------------------------------------------------
-        internal static IntPtr SendMessage(IntPtr hwnd, int msg, out int wParam, out int lParam)
-        {
-            IntPtr result;
+        //internal static IntPtr SendMessage(IntPtr hwnd, int msg, out int wParam, out int lParam)
+        //{
+        //    IntPtr result;
 
-            IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, out wParam, out lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
-            int lastWin32Error = Marshal.GetLastWin32Error();
+        //    IntPtr resultSendMessage = UnsafeNativeMethods.SendMessageTimeout(hwnd, msg, out wParam, out lParam, _sendMessageFlags, _sendMessageTimeoutValue, out result);
+        //    int lastWin32Error = Marshal.GetLastWin32Error();
 
-            if (resultSendMessage == IntPtr.Zero)
-            {
-                // TODO$ : EvaluateSendMessageTimeoutError(lastWin32Error);
-            }
+        //    if (resultSendMessage == IntPtr.Zero)
+        //    {
+        //        // TODO$ : EvaluateSendMessageTimeoutError(lastWin32Error);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         /// -------------------------------------------------------------------
         /// <summary>
         /// Wrapper for MapWindowPoints
         /// </summary>
         /// -------------------------------------------------------------------
-        internal static bool MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref NativeMethods.Win32Rect rect, int cPoints)
-        {
-            // The failure case of this API may also be a valid return.  GetLastError() is need to determine a true failure state.
-            // Clear the last error code to make sure we have a good starting condition to determine error state.
-            //UnsafeNativeMethods.SetLastError(0);
-            int mappingOffset = UnsafeNativeMethods.MapWindowPoints(hWndFrom, hWndTo, ref rect, cPoints);
-            int lastWin32Error = Marshal.GetLastWin32Error();
-            //if (mappingOffset == 0)
-            //{
-            //    // When mapping points to/from Progman and its children MapWindowPoints may fail with error code 1400
-            //    // Invalid Window Handle.  Since Progman is the desktop no mapping is need.
-            //    if ((IsProgmanWindow(hWndFrom) && hWndTo == IntPtr.Zero) ||
-            //        (hWndFrom == IntPtr.Zero && IsProgmanWindow(hWndTo)))
-            //    {
-            //        lastWin32Error = 0;
-            //    }
+        /// Since this method is not used elsewhere, I disable it to save the porting - Matt Guo
+        //internal static bool MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref NativeMethods.Win32Rect rect, int cPoints)
+        //{
+        //    // The failure case of this API may also be a valid return.  GetLastError() is need to determine a true failure state.
+        //    // Clear the last error code to make sure we have a good starting condition to determine error state.
+        //    //UnsafeNativeMethods.SetLastError(0);
+        //    int mappingOffset = UnsafeNativeMethods.MapWindowPoints(hWndFrom, hWndTo, ref rect, cPoints);
+        //    int lastWin32Error = Marshal.GetLastWin32Error();
+        //    //if (mappingOffset == 0)
+        //    //{
+        //    //    // When mapping points to/from Progman and its children MapWindowPoints may fail with error code 1400
+        //    //    // Invalid Window Handle.  Since Progman is the desktop no mapping is need.
+        //    //    if ((IsProgmanWindow(hWndFrom) && hWndTo == IntPtr.Zero) ||
+        //    //        (hWndFrom == IntPtr.Zero && IsProgmanWindow(hWndTo)))
+        //    //    {
+        //    //        lastWin32Error = 0;
+        //    //    }
 
-            //    ThrowWin32ExceptionsIfError(lastWin32Error);
+        //    //    ThrowWin32ExceptionsIfError(lastWin32Error);
 
-            //    // If the coordinates is at the origin a zero return is valid.  
-            //    // Use GetLastError() to check that. Error code 0 is "Operation completed successfull".  
-            //    return lastWin32Error == 0;
-            //}
+        //    //    // If the coordinates is at the origin a zero return is valid.  
+        //    //    // Use GetLastError() to check that. Error code 0 is "Operation completed successfull".  
+        //    //    return lastWin32Error == 0;
+        //    //}
 
-            return true;
-        }
+        //    return true;
+        //}
 
         /// -------------------------------------------------------------------
         /// <summary>

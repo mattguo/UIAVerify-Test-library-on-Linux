@@ -306,11 +306,16 @@ namespace BasicAutomation.Win32
 
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern int SendInput(int nInputs, ref INPUT mi, int cbSize);
+		//todo pinvoke.net: static extern uint SendInput(uint nInputs, INPUT [] pInputs, int cbSize);
 
         [DllImport("user32.dll")]
         internal static extern int MapVirtualKey(int nVirtKey, int nMapType);
 
         [DllImport("user32.dll")]
         internal static extern int GetAsyncKeyState(int nVirtKey);
+		
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(out POINT point);
     }
 }
