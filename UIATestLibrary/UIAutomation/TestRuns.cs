@@ -91,9 +91,6 @@ namespace Microsoft.Test.UIAutomation
             set { TestRuns._filterOutBugs = value; }
         }
 
-        [DllImport("UIAutomationCore.dll", CharSet = CharSet.Unicode)]
-        private static extern void UiaRegisterProviderCallback(IntPtr callback);
-
         /// -------------------------------------------------------------------
         /// <summary>Different ways that the proxies are setup.</summary>
         /// -------------------------------------------------------------------
@@ -125,8 +122,7 @@ namespace Microsoft.Test.UIAutomation
         /// -------------------------------------------------------------------
         public static void UnRegisterProviderCallback()
         {
-            UIAVerifyLogger.LogComment("Calling UiaRegisterProviderCallback(IntPtr.Zero)");
-            UiaRegisterProviderCallback(IntPtr.Zero);
+            throw new NotImplementedException ();
         }
 
         #endregion Data Members and Properties
